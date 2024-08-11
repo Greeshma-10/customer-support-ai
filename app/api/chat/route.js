@@ -1,5 +1,8 @@
 // route.js
 import { Configuration, OpenAIApi } from 'openai';
+
+//import { openAi } from 'openai';
+
 require('dotenv').config();
 //const { Configuration, OpenAIApi } = require('openai');
 
