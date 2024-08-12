@@ -22,7 +22,7 @@ export default function Home() {
   const [user, setUser] = useState(null);
   const [context, setContext] = useState('');
 
-  const maxMessages = 5; // Define the maximum number of messages to keep as context
+  const maxMessages = 5;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -53,69 +53,70 @@ export default function Home() {
     return false;
   };
 
-  const sendMessage = async () => {
-    if (!message.trim() || isLoading) return;
-    setIsLoading(true);
+// Home Component (page.js)
+const sendMessage = async () => {
+  if (!message.trim() || isLoading) return;
+  setIsLoading(true);
 
-    if (handleContextCommand(message)) {
-      setMessages((messages) => [
-        ...messages,
-        { role: 'system', content: `Context set to: "${context}"` },
-      ]);
-      setMessage('');
-      setIsLoading(false);
-      return;
-    }
-
-    const contextMessages = messages.slice(-maxMessages); // Keep only the last `maxMessages` as context
-
+  if (handleContextCommand(message)) {
     setMessages((messages) => [
       ...messages,
-      { role: 'user', content: message },
-      { role: 'assistant', content: '' },
+      { role: 'system', content: `Context set to: "${context}"` },
     ]);
     setMessage('');
+    setIsLoading(false);
+    return;
+  }
 
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message,
-          context: contextMessages.map((msg) => msg.content).join('\n'),
-          userContext: context,
-        }),
-      });
+  const contextMessages = messages.slice(-maxMessages);
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+  setMessages((messages) => [
+    ...messages,
+    { role: 'user', content: message },
+    { role: 'assistant', content: '' },
+  ]);
+  setMessage('');
 
-      const data = await response.json();
-      setMessages((messages) => {
-        let lastMessage = messages[messages.length - 1];
-        let otherMessages = messages.slice(0, messages.length - 1);
-        return [
-          ...otherMessages,
-          { ...lastMessage, content: data.message },
-        ];
-      });
-    } catch (error) {
-      console.error('Error:', error);
-      setMessages((messages) => [
-        ...messages,
-        {
-          role: 'assistant',
-          content:
-            "I'm sorry, but I encountered an error. Please try again later.",
-        },
-      ]);
-    } finally {
-      setIsLoading(false);
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message,
+        context: contextMessages.map((msg) => msg.content).join('\n'),
+        userContext: context,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     }
-  };
+
+    const data = await response.json();
+    setMessages((messages) => {
+      let lastMessage = messages[messages.length - 1];
+      let otherMessages = messages.slice(0, messages.length - 1);
+      return [
+        ...otherMessages,
+        { ...lastMessage, content: data.message },
+      ];
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    setMessages((messages) => [
+      ...messages,
+      {
+        role: 'assistant',
+        content: "I'm sorry, but I encountered an error. Please try again later.",
+      },
+    ]);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -133,14 +134,13 @@ export default function Home() {
     }
   };
 
-  // Create a custom theme
   const theme = createTheme({
     palette: {
       background: {
-        default: '#474154', // Background color for the entire site
+        default: '#474154',
       },
       text: {
-        primary: '#333', // Primary text color
+        primary: '#333',
       },
     },
   });
@@ -172,7 +172,7 @@ export default function Home() {
                 onKeyPress={handleKeyPress}
                 disabled={isLoading}
                 sx={{
-                  backgroundColor: '#ffffff', // TextField background color
+                  backgroundColor: '#ffffff',
                 }}
               />
               <Button

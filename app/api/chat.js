@@ -1,6 +1,6 @@
 // pages/api/chat.js
-//import { Configuration, OpenAIApi } from 'openai';
-import { openAi } from 'openai';
+import { Configuration, OpenAIApi } from 'openai';
+
 
 export default async function handler(req, res) {
   const { message, context, userContext } = req.body;
