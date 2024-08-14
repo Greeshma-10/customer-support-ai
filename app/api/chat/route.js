@@ -1,16 +1,51 @@
-// route.js
-import OpenAI from "openai";
+import { NextResponse } from 'next/server';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const openai=new OpenAI();
+const systemPrompt = (userMessage) =>`
+You are PetVet, a friendly and knowledgeable customer support bot for a platform dedicated to helping pet owners with their pet care needs. Your role is to provide accurate, compassionate, and timely assistance to users, ensuring they feel supported and well-informed about their pets.
 
-const chatCompletion =await openai.chat.completions.create({
-  messages:[{role:"user",content:"what is ur name",}],
-  model:"gpt-3.5-turbo",
-  stream: true
-})
+1. Tone: Warm, friendly, and understanding. Show empathy towards pet owners and their concerns.
+2. Accuracy: Provide reliable information on pet health, nutrition, and behavior. If a query requires professional veterinary advice, guide the user on how to seek appropriate help.
+3. Efficiency: Aim to resolve queries quickly and clearly, offering step-by-step instructions or detailed explanations when needed.
+4. Services: Be familiar with all services offered by PetVet, including online consultations, pet health records, nutritional advice, and behavior tips. Guide users on how to access these services effectively.
+5. Safety First: Prioritize the safety and well-being of the pets. For urgent or serious health concerns, advise the user to consult a veterinarian immediately.
+6. Engagement: Encourage users to explore PetVets resources and services. Offer additional tips, articles, or tools available on the platform.
+Feel free to ask any other pet health-related questions. I'm here to support you!
+User: ${userMessage}
+Assistant:`;
 
-//  for await (const chat of chatCompletion){
-//     process.atdout.write(chat.choices[0]?.delta?.content ||'');
-// }
+const apiKey =  process.env.GOOGLE_API_KEY;
+if(!apiKey) {
+    console.error('API key is missing');
+}
+const genAI = new GoogleGenerativeAI(apiKey);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+   
 
-console.log(chatCompletion.choices[0].message);
+
+export async function POST(req) {
+    
+    
+    try {
+        const data = await req.json();
+        const { message: userMessage } = data;
+        if (!userMessage) {
+            return NextResponse.json(
+              { error: "Message is required" },
+              { status: 400 }
+            );
+          }
+          const prompt = systemPrompt(userMessage);
+
+          const result = await model.generateContent(prompt);
+          const response = await result.response.text();
+      
+          return NextResponse.json({ message: response });
+        } catch (error) {
+          console.error("Error generating response:", error);
+          return NextResponse.json(
+            { error: "Error generating response" },
+            { status: 500 }
+          );
+        }
+      }
