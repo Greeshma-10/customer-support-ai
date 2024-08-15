@@ -55,19 +55,16 @@ export default function Auth() {
       height="100vh"
       display="flex"
       flexDirection="column"
-      justifyContent="center"
+      justifyContent="flex-start"
       alignItems="center"
-      style={{
-        backgroundColor: 'lavender',
-      }}
+      /*style={{
+        backgroundColor: '#121212',
+      }}*/
+     id="background"
     >
-      <box id="boxx">
-      <box id="box"></box><br></br>
-      <box id="box1"></box><br></br>
-      </box>
-      <h1 id="heading">WELCOME TO VETPET AI SUPPORT</h1>
+      <h1 id="heading">WELCOME  TO PAWTOPIA AI SUPPORT</h1>
       <p>"Bringing Veterinary Care to Your Fingertips"</p>
-      <Typography variant="h4" style={{ color: 'black' }} gutterBottom>
+      <Typography variant="h4" style={{ color: 'black' , fontSize:"1.5rem", fontFamily:'timesNew Roman', fontWeight:'900'}} gutterBottom>
         {isSignUp ? 'Sign Up' : 'Sign In'}
       </Typography>
       <TextField
@@ -75,7 +72,8 @@ export default function Auth() {
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        sx={{ backgroundColor: 'white', color: 'black', width: 400 }}
+        sx={{ backgroundColor: '#FAF9F6 ', color: 'black', width: 400 }}
+        id="email"
       />
       <TextField
         label="Password"
@@ -84,7 +82,7 @@ export default function Auth() {
         onChange={(e) => setPassword(e.target.value)}
         fullWidth
         margin="normal"
-        sx={{ backgroundColor: 'white', color: 'black', width: 400 }}
+        sx={{ backgroundColor: '#FAF9F6', color: 'black', width: 400 }}
       />
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <Button
@@ -92,8 +90,8 @@ export default function Auth() {
         color="primary"
         onClick={handleSubmit}
         sx={{
-          backgroundColor: lightBlue[500],
-          color: 'black',
+          backgroundColor:"#008080",
+          color: 'white',
           '&:hover': {
             backgroundColor: '#0056b3',
           },
@@ -105,7 +103,7 @@ export default function Auth() {
         variant="contained"
         color="secondary"
         onClick={handleGoogleSignIn}
-        sx={{ marginTop: 2, backgroundColor: 'purple', color: 'white' }}
+        sx={{ marginTop: 2, backgroundColor: '#008080', color: 'white' }}
       >
         Sign In with Google
       </Button>
@@ -114,10 +112,13 @@ export default function Auth() {
         variant="text"
         color="secondary"
         onClick={() => setIsSignUp(!isSignUp)}
-        sx={{ marginTop: 2, color: blue[500] }}
+        sx={{ marginTop: 2, color:'#008080' }}
       >
         {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
       </Button>
+      
     </Box>
+    
   );
 }
+

@@ -123,7 +123,7 @@ a {
  
   background-image: url("./assets/cat.jpg");
   background-size: cover;
-  border: 2px solid black;
+  border: 2px solid white;
   animation: fadeInScaleUp 2s ease-in;
 }
 
@@ -134,7 +134,7 @@ a {
   background-image: url("./assets/dog.jpg");
   background-size: cover;
   margin-left: 20px;
-  border: 2px solid black;
+  border: 2px solid white;
   animation: fadeInScaleUp 2s ease-in ; /* Delay start by 0.5s */
 }
 
@@ -157,11 +157,12 @@ a {
 }
 
 #heading {
-  color: purple;
+  color:#008080 ;
   font-family: 'Times New Roman', Times, serif;
-  font-weight: 800;
+  font-weight: 900;
   font-size: 2rem;
   margin-bottom: 5px;
+  margin-top: 15px;
   animation: slideInFadeIn 1.5s ease-out;
 }
 
@@ -175,8 +176,13 @@ a {
 }
 
 p {
-  color: rgb(120, 63, 120);
+  color: #008080;
   font-size: 1rem;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   animation: fadeIn 1s ease-out;
+}
+
+#background{
+  background-image: url("./assets/background.jpg");
+  background-size: cover;
 }
