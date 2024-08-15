@@ -113,34 +113,3 @@ export default function Auth() {
   );
   
 }
-const Footer = () => (
-  <Box
-    component="footer"
-    width="100%"
-    bgcolor="#f0f0f0"
-    p={3}
-    mt={4}
-    textAlign="center"
-  >
-    <Typography variant="h6" gutterBottom>
-      Our Team
-    </Typography>
-    <Grid container spacing={2} justifyContent="center">
-      <Grid item xs={12} sm={4}>
-        <Typography variant="subtitle1">John Doe</Typography>
-        <Typography variant="body2">Founder & CEO</Typography>
-      </Grid>
-      <Grid item xs={12} sm={4}>
-        <Typography variant="subtitle1">Jane Smith</Typography>
-        <Typography variant="body2">Chief Technology Officer</Typography>
-      </Grid>
-      <Grid item xs={12} sm={4}>
-        <Typography variant="subtitle1">Emily Brown</Typography>
-        <Typography variant="body2">Lead Veterinary Specialist</Typography>
-      </Grid>
-    </Grid>
-    <Typography variant="body2" color="textSecondary" mt={2}>
-      &copy; {new Date().getFullYear()} Pawtopia AI Support. All rights reserved.
-    </Typography>
-  </Box>
-);
