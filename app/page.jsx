@@ -1,8 +1,12 @@
 'use client';
-'use client'
+
+'use client';
 
 import { Box, Button, Stack, TextField } from '@mui/material'
 import { useState, useRef, useEffect } from 'react'
+import { onAuthStateChanged,signOut } from 'firebase/auth';
+import { auth } from '../firebase';
+import SignIn from './SignIn'; // Assuming your SignIn component is in the app folder
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -13,7 +17,16 @@ export default function Home() {
   ]);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState(null);  // Track the authenticated user
   const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const sendMessage = async () => {
     if (!message.trim()) return;  // Don't send empty messages
@@ -63,6 +76,15 @@ export default function Home() {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);  // Clear the user state after sign out
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
+
   const handleKeyPress = (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault()
@@ -70,7 +92,6 @@ export default function Home() {
     }
   }
 
-  
   // Auto scrolling
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -78,7 +99,11 @@ export default function Home() {
 
   useEffect(() => {
     scrollToBottom()
-  }, [messages])
+  }, [messages]);
+
+  if (!user) {
+    return <SignIn />;
+  }
 
   return (
     <Box
@@ -167,6 +192,9 @@ export default function Home() {
           />
           <Button variant="outlined" onClick={sendMessage} disabled={isLoading}>
             SEND
+          </Button>
+          <Button variant="outlined" onClick={handleSignOut}>
+            SIGN OUT
           </Button>
         </Stack>
       </Stack>
