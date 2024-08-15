@@ -5,7 +5,7 @@ import { Button, TextField, Box, Typography } from '@mui/material';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../firebase';
 
-export default function Auth() {
+export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -48,52 +48,50 @@ export default function Auth() {
 
   return (
     <Box
-      width='100%'
-      display='flex'
-      flexDirection='column'
-      justifyContent='flex-start'
-      alignItems='center'
+      width="100%"
+      display="flex"
+      flexDirection="column"
+      justifyContent="flex-start"
+      alignItems="center"
       sx={{ minHeight: '100vh', paddingBottom: '20px' }} // Adjust minHeight and padding
-      id='background'
+      id="background"
     >
-      <h1 id='heading'>WELCOME TO PAWTOPIA AI SUPPORT</h1>
-      <p>"Bringing Veterinary Care to Your Fingertips"</p>
-      <Typography variant='h4' style={{ color: 'black', fontSize: '1.5rem', fontFamily: 'Times New Roman', fontWeight: '900' }} gutterBottom>
+      <h1 id="heading">WELCOME TO PAWTOPIA AI SUPPORT</h1>
+      <p>&quot;Bringing Veterinary Care to Your Fingertips&quot;</p> {/* Escaped quotes */}
+      <Typography variant="h4" style={{ color: 'black', fontSize: "1.5rem", fontFamily: 'Times New Roman', fontWeight: '900' }} gutterBottom>
         {isSignUp ? 'Sign Up' : 'Sign In'}
       </Typography>
       <TextField
-        label='Email'
-        type='email'
+        label="Email"
+        type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         sx={{ backgroundColor: '#FAF9F6', color: 'black', width: 400 }}
-        
       />
       <TextField
-        label='Password'
-        type='password'
+        label="Password"
+        type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         fullWidth
-        margin='normal'
+        margin="normal"
         sx={{ backgroundColor: '#FAF9F6', color: 'black', width: 400 }}
       />
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <Button
-        variant='contained'
-        color='primary'
+        variant="contained"
+        color="primary"
         onClick={handleSubmit}
         sx={{
-          backgroundColor: '#008080',
+          backgroundColor: "#008080",
           color: 'white',
-          
         }}
       >
         {isSignUp ? 'Sign Up' : 'Sign In'}
       </Button>
       <Button
-        variant='contained'
-        color='secondary'
+        variant="contained"
+        color="secondary"
         onClick={handleGoogleSignIn}
         sx={{ marginTop: 2, backgroundColor: '#008080', color: 'white' }}
       >
@@ -101,8 +99,8 @@ export default function Auth() {
       </Button>
 
       <Button
-        variant='text'
-        color='secondary'
+        variant="text"
+        color="secondary"
         onClick={() => setIsSignUp(!isSignUp)}
         sx={{ marginTop: 2, color: '#008080' }}
       >
