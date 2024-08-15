@@ -3,14 +3,13 @@
 import { useState } from 'react';
 import { Button, TextField, Box, Typography } from '@mui/material';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider} from '../firebase'; // Ensure this path points to your firebase configuration
-import { blue, lightBlue } from '@mui/material/colors';
+import { auth, googleProvider } from '../firebase';
 
 export default function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isSignUp, setIsSignUp] = useState(false); // State to toggle between sign in and sign up
+  const [isSignUp, setIsSignUp] = useState(false);
 
   const handleSignIn = async () => {
     try {
@@ -39,8 +38,6 @@ export default function Auth() {
     }
   };
 
- 
-
   const handleSubmit = async () => {
     if (isSignUp) {
       await handleSignUp();
@@ -52,19 +49,16 @@ export default function Auth() {
   return (
     <Box
       width="100%"
-      height="100vh"
       display="flex"
       flexDirection="column"
       justifyContent="flex-start"
       alignItems="center"
-      /*style={{
-        backgroundColor: '#121212',
-      }}*/
-     id="background"
+      sx={{ minHeight: '100vh', paddingBottom: '20px' }} // Adjust minHeight and padding
+      id="background"
     >
-      <h1 id="heading">WELCOME  TO PAWTOPIA AI SUPPORT</h1>
+      <h1 id="heading">WELCOME TO PAWTOPIA AI SUPPORT</h1>
       <p>"Bringing Veterinary Care to Your Fingertips"</p>
-      <Typography variant="h4" style={{ color: 'black' , fontSize:"1.5rem", fontFamily:'timesNew Roman', fontWeight:'900'}} gutterBottom>
+      <Typography variant="h4" style={{ color: 'black', fontSize: "1.5rem", fontFamily: 'Times New Roman', fontWeight: '900' }} gutterBottom>
         {isSignUp ? 'Sign Up' : 'Sign In'}
       </Typography>
       <TextField
@@ -72,8 +66,8 @@ export default function Auth() {
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        sx={{ backgroundColor: '#FAF9F6 ', color: 'black', width: 400 }}
-        id="email"
+        sx={{ backgroundColor: '#FAF9F6', color: 'black', width: 400 }}
+        
       />
       <TextField
         label="Password"
@@ -90,11 +84,9 @@ export default function Auth() {
         color="primary"
         onClick={handleSubmit}
         sx={{
-          backgroundColor:"#008080",
+          backgroundColor: "#008080",
           color: 'white',
-          '&:hover': {
-            backgroundColor: '#0056b3',
-          },
+          
         }}
       >
         {isSignUp ? 'Sign Up' : 'Sign In'}
@@ -107,18 +99,48 @@ export default function Auth() {
       >
         Sign In with Google
       </Button>
-     
+
       <Button
         variant="text"
         color="secondary"
         onClick={() => setIsSignUp(!isSignUp)}
-        sx={{ marginTop: 2, color:'#008080' }}
+        sx={{ marginTop: 2, color: '#008080' }}
       >
         {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
       </Button>
-      
     </Box>
     
   );
+  
 }
-
+const Footer = () => (
+  <Box
+    component="footer"
+    width="100%"
+    bgcolor="#f0f0f0"
+    p={3}
+    mt={4}
+    textAlign="center"
+  >
+    <Typography variant="h6" gutterBottom>
+      Our Team
+    </Typography>
+    <Grid container spacing={2} justifyContent="center">
+      <Grid item xs={12} sm={4}>
+        <Typography variant="subtitle1">John Doe</Typography>
+        <Typography variant="body2">Founder & CEO</Typography>
+      </Grid>
+      <Grid item xs={12} sm={4}>
+        <Typography variant="subtitle1">Jane Smith</Typography>
+        <Typography variant="body2">Chief Technology Officer</Typography>
+      </Grid>
+      <Grid item xs={12} sm={4}>
+        <Typography variant="subtitle1">Emily Brown</Typography>
+        <Typography variant="body2">Lead Veterinary Specialist</Typography>
+      </Grid>
+    </Grid>
+    <Typography variant="body2" color="textSecondary" mt={2}>
+      &copy; {new Date().getFullYear()} Pawtopia AI Support. All rights reserved.
+    </Typography>
+  </Box>
+);
